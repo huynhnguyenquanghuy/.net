@@ -14,18 +14,18 @@
                 calTotal();
             });
             $("#btnAddToList").click(function () {
-                addToTheList();
+                addToTheItemList();
             });
         });
-        function addToTheList() {
+        function addToTheItemList() {
             var tblItemList = $("#tblItemList");
             var Price = $("#txtPrice").val();
-            var Discount = $("#txtDiscount").val();
             var Quantity = $("#txtQuantity").val();
+            var Discount = $("#txtDiscount").val();
             var ItemId = $("#Item").val();
-            var ItemName = $("#Item option: selected").text();
+            var ItemName = $("#Item option:selected").text();
             var Total = (Price * Quantity) - Discount;
-            
+
             var ItemList = "<tr><td hidden>" +
                 ItemId +
                 "</td> <td>" +
@@ -42,14 +42,29 @@
 
             tblItemList.append(ItemList);
             RestItem();
-            
+            FinalItemTotal();
 
-            }
+        }
 
+        function FinalItemTotal() {
+            $("#txtTotalFinal").val("0.00");
+            var FinalTotal = 0.00;
+            $("#tblItemList").find("tr:gt(0)").each(function () {
+                var Total = parseFloat($(this).find("td:eq(5)").text());
+                FinalTotal += Total;
+                alert(FinalTotal)
+
+            });
+            $("#txtTotalFinal").val(parseFloat(FinalTotal).toFixed(2));
+        }
+        
+        function RemoveItem(Itemid) {
+            $(Itemid).closest('tr').remove();
+        }
         function RestItem() {
             $("#txtPrice").val('');
-            $("#txtQuantity").val('');
-            $("#txtDiscount").val('');
+            $("#txtQuantity").val('1');
+            $("#txtDiscount").val('0.00');
             $("#Item").val(0);
             $("#txtTotalPrice").val("");
         }
@@ -110,18 +125,24 @@
     </legend>
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     Customer:
                     @Html.DropDownList(name: "Customer", selectList: new SelectList(Model.Item1, dataValueField: "Value", dataTextField: "Text"),
                    htmlAttributes: new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     PaymentType:
                     @Html.DropDownList(name: "PaymentType", selectList: new SelectList(Model.Item3, dataValueField: "Value", dataTextField: "Text"),
                    htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class=" col-md-4">
+                <div class="form-group">
+                    TotalFinal:
+                    <input style="text-align : right" type="text" readonly="readonly" id="txtTotalFinal" value="0.00" name="TotalFinal" class="form-control" />
                 </div>
             </div>
         </div>
