@@ -14,20 +14,28 @@
                 calTotal();
             });
             $("input[type = text]").keyup(function () {
-                calBal();
+                calBalance();
             });
             $("#btnAddToList").click(function () {
                 addToTheItemList();
             });
         });
 
-        function calBal() {
-            var TotalPayment = $("#txtTotalPayment");
-            var Amount = $("#txtAmount");
-            var Return = $("#txtReturn");
-            var BalAmount =( parseFloat(TotalPayment) - parseFloat(Amount)) + parseFloat(Return);
-            $("#txtBalance").val(parseFloat(BalAmount).toFixed(2));
-        };
+        function calTotal() {
+            var Price = $("#txtPrice").val();
+            var Discount = $("#txtDiscount").val();
+            var Quantity = $("#txtQuantity").val();
+            var Total = (Price * Quantity) - Discount;
+            $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
+
+        }
+
+        function calBalance() {
+            var TotalPayment = $("#txtTotalPayment").val();
+            var ReturnAmount = $("#txtReturnAmount").val();
+            var Balance = TotalPayment - ReturnAmount;
+            $("#txtBalance").val(parseFloat(Balance).toFixed(2));
+        }
 
         function addToTheItemList() {
             var tblItemList = $("#tblItemList");
@@ -225,7 +233,7 @@
             </div>
             <div class=" col-md-4>
                 <div class="form-group">
-                    <input type="button" style="margin-top : 19px" id="btnAddToList" value="Add To List" name="AddToList" class="btn btn-success" />
+                    <input type="button" style="margin-top : 15px" id="btnAddToList" value="Add To List" name="AddToList" class="btn btn-success" />
                 </div>
 
             </div>
@@ -282,27 +290,27 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         Total Payment:
                         <input style="text-align:right" type="text" value="0.00" id="txtTotalPayment" readonly="readonly" class="form-control" />
                     </div>
-                    <div class="form-group col-md-6">
-                        Amount:
-                        <input style="text-align:right" type="text" value="0.00" id="txtAmount" class="form-control" />
+                    <div class="form-group col-md-4">
+                        Return Amount:
+                        <input style="text-align:right" type="text" id="txtReturnAmount" value="0.00" name="ReturnAmount"class="form-control" />
                     </div>
                 </div>
 
 
                 <div class="row">
+                    @*<div class="form-group col-md-6">
+            Return:
+            <input  style="text-align:right" type="text" value="0.00" id="txtReturn"  class="form-control" />
+        </div>*@
                     <div class="form-group col-md-6">
-                        Return:
-                        <input  style="text-align:right" type="text" value="0.00" id="txtReturn"  class="form-control" />
+                        Balance;
+                        <input style="text-align: right" type="text" id="txtBalance" value="0.00" name="Balance" class="form-control" />
                     </div>
-                    <div class="form-group col-md-6">
-                        Balance Amount:
-                        <input style="text-align:right" type="text" value="0.00" readonly="readonly" id="txtBalance"class="form-control" />
-                    </div>
-                  </div>
+                </div>
                 </div>
             </div>
             <div class="modal-footer">
