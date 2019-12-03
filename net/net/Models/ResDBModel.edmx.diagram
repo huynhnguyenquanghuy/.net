@@ -8,6 +8,10 @@
         <EntityTypeShape EntityType="resModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="resModel.Item" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="resModel.PaymentType" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="resModel.OderDeatail" Width="1.5" PointX="5.625" PointY="4" />
+        <EntityTypeShape EntityType="resModel.Oder" Width="1.5" PointX="3.375" PointY="4" />
+        <EntityTypeShape EntityType="resModel.Transaction" Width="1.5" PointX="5.375" PointY="0.75" />
+        <AssociationConnector Association="resModel.FK_OderDeatails_Oders" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

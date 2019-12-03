@@ -19,7 +19,46 @@
             $("#btnAddToList").click(function () {
                 addToTheItemList();
             });
+            $("#btnPayment").click(function ())
+            {
+                finalPayment();
+            }
         });
+
+        function finalPayment() { }
+        var objoderViewModel = {};
+        var ListOfOrderDeatilsViewModel = new Array();
+        //OrderDeatilsViewModel
+        objoderViewModel.PaymentType = $("#PaymentType").val();
+        objoderViewModel.CustomerId = $("#Customer").val();
+        objoderViewModel.FinalTotal = $("#txtTotalFinal").val();
+
+        $("#tblItemList").find("tr:gt(0)").each(function () {
+            var OderDeatilsViewModel = {};
+            OderDeatilsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+            OderDeatilsViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
+            OderDeatilsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
+            OderDeatilsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+            OderDeatilsViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
+            ListOfOrderDeatilsViewModel.push(OderDeatilsViewModel);
+
+        });
+
+        objoderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+
+          $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+              contentType: 'application/json; charset=utf-8',
+              data: JSON.stringify(objoderViewModel),
+                url: '/home/Index',
+                success: function (data) {
+                   
+                },
+                error: function () {
+                    alert("ko them vao da ta bay dc");
+                }
 
         function calTotal() {
             var Price = $("#txtPrice").val();
@@ -27,6 +66,7 @@
             var Quantity = $("#txtQuantity").val();
             var Total = (Price * Quantity) - Discount;
             $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
+
 
         }
 

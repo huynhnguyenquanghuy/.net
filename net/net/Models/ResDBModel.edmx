@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="resModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="resModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customers">
           <Key>
             <PropertyRef Name="CustomerId" />
@@ -27,13 +27,64 @@
           <Property Name="PaymentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PaymentTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="OderDeatails">
+          <Key>
+            <PropertyRef Name="OderDetailId" />
+          </Key>
+          <Property Name="OderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OderId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Oders">
+          <Key>
+            <PropertyRef Name="OderId" />
+          </Key>
+          <Property Name="OderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentType" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="OderName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="OderDate" Type="datetime" Nullable="false" />
+          <Property Name="FinalTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="TypeId" Type="int" />
+        </EntityType>
+        <Association Name="FK_OderDeatails_Oders">
+          <End Role="Oders" Type="Self.Oders" Multiplicity="1" />
+          <End Role="OderDeatails" Type="Self.OderDeatails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oders">
+              <PropertyRef Name="OderId" />
+            </Principal>
+            <Dependent Role="OderDeatails">
+              <PropertyRef Name="OderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="resModelStoreContainer">
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="Master" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="Master" store:Type="Tables" />
           <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="Master" store:Type="Tables" />
+          <EntitySet Name="OderDeatails" EntityType="Self.OderDeatails" Schema="oder" store:Type="Tables" />
+          <EntitySet Name="Oders" EntityType="Self.Oders" Schema="oder" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="oder" store:Type="Tables" />
+          <AssociationSet Name="FK_OderDeatails_Oders" Association="Self.FK_OderDeatails_Oders">
+            <End Role="Oders" EntitySet="Oders" />
+            <End Role="OderDeatails" EntitySet="OderDeatails" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="resModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -63,7 +114,61 @@
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="OderDeatails" EntityType="resModel.OderDeatail" />
+          <EntitySet Name="Oders" EntityType="resModel.Oder" />
+          <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
+          <AssociationSet Name="FK_OderDeatails_Oders" Association="resModel.FK_OderDeatails_Oders">
+            <End Role="Oder" EntitySet="Oders" />
+            <End Role="OderDeatail" EntitySet="OderDeatails" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="OderDeatail">
+          <Key>
+            <PropertyRef Name="OderDetailId" />
+          </Key>
+          <Property Name="OderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OderId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Oder" Relationship="resModel.FK_OderDeatails_Oders" FromRole="OderDeatail" ToRole="Oder" />
+        </EntityType>
+        <EntityType Name="Oder">
+          <Key>
+            <PropertyRef Name="OderId" />
+          </Key>
+          <Property Name="OderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentType" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="OderName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FinalTotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="OderDeatails" Relationship="resModel.FK_OderDeatails_Oders" FromRole="Oder" ToRole="OderDeatail" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TypeId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_OderDeatails_Oders">
+          <End Type="resModel.Oder" Role="Oder" Multiplicity="1" />
+          <End Type="resModel.OderDeatail" Role="OderDeatail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oder">
+              <PropertyRef Name="OderId" />
+            </Principal>
+            <Dependent Role="OderDeatail">
+              <PropertyRef Name="OderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -92,6 +197,42 @@
               <MappingFragment StoreEntitySet="PaymentType">
                 <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
                 <ScalarProperty Name="PaymentTypeName" ColumnName="PaymentTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OderDeatails">
+            <EntityTypeMapping TypeName="resModel.OderDeatail">
+              <MappingFragment StoreEntitySet="OderDeatails">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="OderId" ColumnName="OderId" />
+                <ScalarProperty Name="OderDetailId" ColumnName="OderDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Oders">
+            <EntityTypeMapping TypeName="resModel.Oder">
+              <MappingFragment StoreEntitySet="Oders">
+                <ScalarProperty Name="FinalTotal" ColumnName="FinalTotal" />
+                <ScalarProperty Name="OderDate" ColumnName="OderDate" />
+                <ScalarProperty Name="OderName" ColumnName="OderName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="OderId" ColumnName="OderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="resModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

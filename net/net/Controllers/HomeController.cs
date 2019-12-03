@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using net.Models;
 using net.Repo;
+using net.ViewModel;
 
 namespace net.Controllers
 {
@@ -33,6 +34,12 @@ namespace net.Controllers
         {
             decimal unitPrice = objresEntities.Items.Single(model => model.ItemId == itemId).ItemPirce;
             return Json(unitPrice, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Index(OderViewModel objoderViewModel)
+        {
+            return Json(data: "", JsonRequestBehavior.AllowGet);
         }
     }
 }
