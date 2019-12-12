@@ -22,9 +22,74 @@
     <Property Name="PaymentTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PaymentTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="OrderNumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="FinalTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="OrderDetailId" />
+    </Key>
+    <Property Name="OrderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Discount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'res.order.Transactions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="TransactionDate" />
+    </Key>
+    <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+    <Property Name="TypeId" Type="int" />
+  </EntityType>
+  <Association Name="FK_OrderDetails_Order1">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="resModelStoreContainer">
     <EntitySet Name="Customers" EntityType="Self.Customers" Schema="Master" store:Type="Tables" />
     <EntitySet Name="Item" EntityType="Self.Item" Schema="Master" store:Type="Tables" />
     <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="Master" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="order" store:Type="Tables" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="order" store:Type="Tables" />
+    <EntitySet Name="Transactions" EntityType="Self.Transactions" store:Type="Tables" store:Schema="order">
+      <DefiningQuery>SELECT 
+    [Transactions].[TransactionId] AS [TransactionId], 
+    [Transactions].[ItemId] AS [ItemId], 
+    [Transactions].[Quantity] AS [Quantity], 
+    [Transactions].[TransactionDate] AS [TransactionDate], 
+    [Transactions].[TypeId] AS [TypeId]
+    FROM [order].[Transactions] AS [Transactions]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_OrderDetails_Order1" Association="Self.FK_OrderDetails_Order1">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

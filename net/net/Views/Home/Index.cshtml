@@ -26,25 +26,25 @@
         });
 
         function finalPayment() { }
-        var objoderViewModel = {};
+        var objorderViewModel = {};
         var ListOfOrderDeatilsViewModel = new Array();
         //OrderDeatilsViewModel
-        objoderViewModel.PaymentType = $("#PaymentType").val();
-        objoderViewModel.CustomerId = $("#Customer").val();
-        objoderViewModel.FinalTotal = $("#txtTotalFinal").val();
+        objorderViewModel.PaymentType = $("#PaymentType").val();
+        objorderViewModel.CustomerId = $("#Customer").val();
+        objorderViewModel.FinalTotal = $("#txtTotalFinal").val();
 
         $("#tblItemList").find("tr:gt(0)").each(function () {
-            var OderDeatilsViewModel = {};
-            OderDeatilsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
-            OderDeatilsViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
-            OderDeatilsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
-            OderDeatilsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
-            OderDeatilsViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
-            ListOfOrderDeatilsViewModel.push(OderDeatilsViewModel);
+            var OrderDeatilsViewModel = {};
+            OrderDeatilsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+            OrderDeatilsViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
+            OrderDeatilsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
+            OrderDeatilsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+            OrderDeatilsViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
+            ListOfOrderDeatilsViewModel.push(OrderDeatilsViewModel);
 
         });
 
-        objoderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+        objorderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
 
           $.ajax({
                 async: true,
@@ -53,8 +53,8 @@
               contentType: 'application/json; charset=utf-8',
               data: JSON.stringify(objoderViewModel),
                 url: '/home/Index',
-                success: function (data) {
-                   
+              success: function (data) {
+                  alert(data);
                 },
                 error: function () {
                     alert("ko them vao da ta bay dc");

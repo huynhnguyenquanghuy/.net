@@ -28,8 +28,11 @@ namespace net.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
-        public virtual DbSet<OderDeatail> OderDeatails { get; set; }
-        public virtual DbSet<Oder> Oders { get; set; }
+        public virtual DbSet<OderDeatail1> OderDeatail1 { get; set; }
+        public virtual DbSet<Order1> Order1 { get; set; }
+        public virtual DbSet<OrderDeatail1> OrderDeatail1 { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }

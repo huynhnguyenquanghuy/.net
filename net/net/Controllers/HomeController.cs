@@ -14,6 +14,8 @@ namespace net.Controllers
         // GET: Home
 
         private resEntities objresEntities;
+        private OrderViewModel objorderViewModel;
+
         public HomeController()
         {
             objresEntities = new resEntities();
@@ -37,9 +39,11 @@ namespace net.Controllers
         }
 
         [HttpPost]
-        public JsonResult Index(OderViewModel objoderViewModel)
+        public JsonResult Index(OrderViewModel objoderViewModel)
         {
-            return Json(data: "", JsonRequestBehavior.AllowGet);
+            OrderRepo objorderRepo = new OrderRepo();
+            objorderRepo.AddOrder(objorderViewModel);
+            return Json(data: "oke", JsonRequestBehavior.AllowGet);
         }
     }
 }

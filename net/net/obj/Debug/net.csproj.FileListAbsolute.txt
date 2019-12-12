@@ -139,7 +139,6 @@ C:\Users\huynh\Desktop\net\net\net\bin\System.Web.Webpages.Razor.xml
 C:\Users\huynh\Desktop\net\net\net\bin\System.Web.Helpers.xml
 C:\Users\huynh\Desktop\net\net\net\bin\System.Web.Mvc.xml
 C:\Users\huynh\Desktop\net\net\net\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\huynh\Desktop\net\net\net\obj\Debug\net.csprojAssemblyReference.cache
 C:\Users\huynh\Desktop\net\net\net\obj\Debug\net.csproj.CoreCompileInputs.cache
 C:\Users\huynh\Desktop\net\net\net\obj\Debug\net.csproj.CopyComplete
 C:\Users\huynh\Desktop\net\net\net\obj\Debug\net.dll
