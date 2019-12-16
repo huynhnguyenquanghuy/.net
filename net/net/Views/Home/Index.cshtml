@@ -19,46 +19,44 @@
             $("#btnAddToList").click(function () {
                 addToTheItemList();
             });
-            $("#btnPayment").click(function ())
-            {
+            $("#btnPayment").click(function () {
                 finalPayment();
-            }
+            });
         });
 
-        function finalPayment() { }
-        var objorderViewModel = {};
-        var ListOfOrderDeatilsViewModel = new Array();
-        //OrderDeatilsViewModel
-        objorderViewModel.PaymentType = $("#PaymentType").val();
-        objorderViewModel.CustomerId = $("#Customer").val();
-        objorderViewModel.FinalTotal = $("#txtTotalFinal").val();
+        function finalPayment() {
+            var objOderViewModel = {};
+            var ListOfOrderDeatilsViewModel = new Array();
+            //ListOfOrderDeatilsViewModel
+            objOderViewModel.PaymentTypeId = ("#PaymentType").val();
+            objOderViewModel.CustomerId = ("#Customer").val();
+            objOderViewModel.FinalTotal = ("#txtFinalTotal").val();
+            $("#tblItemList").find("tr:gt(0)").each(function () {
+                var OderDeatailsViewModel = {}
+                OderDeatailsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+                OderDeatailsViewModel.Itemid = parseFloat($(this).find("td:eq(0)").text());
+                OderDeatailsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
+                OderDeatailsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+                OderDeatailsViewModel.Dicsount = parseFloat($(this).find("td:eq(4)").text());
+                ListOfOrderDeatilsViewModel.push(OderDeatailsViewModel);
 
-        $("#tblItemList").find("tr:gt(0)").each(function () {
-            var OrderDeatilsViewModel = {};
-            OrderDeatilsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
-            OrderDeatilsViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
-            OrderDeatilsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
-            OrderDeatilsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
-            OrderDeatilsViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
-            ListOfOrderDeatilsViewModel.push(OrderDeatilsViewModel);
-
-        });
-
-        objorderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
-
-          $.ajax({
+            });
+            objOderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+            $.ajax({
                 async: true,
                 type: 'POST',
                 dataType: 'JSON',
-              contentType: 'application/json; charset=utf-8',
-              data: JSON.stringify(objoderViewModel),
-                url: '/home/Index',
-              success: function (data) {
-                  alert(data);
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(objOderViewModel),
+                url: '/Home/Index',
+                success: function (data) {
+                    alert(data);
                 },
                 error: function () {
-                    alert("ko them vao da ta bay dc");
-                }
+                    alert("problem");
+                },
+            })
+        }
 
         function calTotal() {
             var Price = $("#txtPrice").val();
@@ -67,15 +65,9 @@
             var Total = (Price * Quantity) - Discount;
             $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
 
-
         }
 
-        function calBalance() {
-            var TotalPayment = $("#txtTotalPayment").val();
-            var ReturnAmount = $("#txtReturnAmount").val();
-            var Balance = TotalPayment - ReturnAmount;
-            $("#txtBalance").val(parseFloat(Balance).toFixed(2));
-        }
+     
 
         function addToTheItemList() {
             var tblItemList = $("#tblItemList");
@@ -105,6 +97,29 @@
             FinalItemTotal();
 
         }
+            
+        //function FinalItemTotal() {
+        //    $("#txtFinalTotal").val("0.00");
+        //    var FinalTotal = 0.00;
+        //    $("#tblItemList").find("tr:gt(0)").each(function () {
+        //        var Total = parseFloat($(this).find("td:eq(5)").text());
+        //        FinalTotal += Total;
+        //        //alert(FinalTotal)
+
+        //    });
+        //    $("#txtFinalTotal").val(parseFloat(FinalTotal).toFixed(2));
+        //    $("#txtTotalPayment").val(parseFloat(FinalTotal).toFixed(2));
+        //    $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
+              
+        //}
+
+        //function calBalance() {
+        //    var Final = $("txtTotalPayment").val();
+        //    var PaymentAmount = $("txtPaymentAmount").val();
+        //    var ReturnAmount = $("txtReturn").val();
+        //    var BalanceAmount = (parseFloat(Final) - parseFloat(PaymentAmount)) + parseFloat(ReturnAmount);
+        //    $("#txtBalance").val(parseFloat(BalanceAmount));
+        //}
 
         function FinalItemTotal() {
             $("#txtTotalFinal").val("0.00");
@@ -120,16 +135,26 @@
             $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
     
         }
-        
+
+
+         function calBalance() {
+            var TotalPayment = $("#txtTotalPayment").val();
+            var ReturnAmount = $("#txtReturnAmount").val();
+            var Balance = TotalPayment - ReturnAmount;
+            $("#txtBalance").val(parseFloat(Balance).toFixed(2));
+        }
+
         function RemoveItem(Itemid) {
             $(Itemid).closest('tr').remove();
         }
+
         function RestItem() {
             $("#txtPrice").val('');
             $("#txtQuantity").val('1');
             $("#txtDiscount").val('0.00');
             $("#Item").val(0);
             $("#txtTotalPrice").val("");
+           
         }
 
         function getItemPrice(itemId) {
@@ -223,8 +248,8 @@
             </div>
             <div class=" col-md-4">
                 <div class="form-group">
-                    TotalFinal:
-                    <input style="text-align : right" type="text" readonly="readonly" id="txtTotalFinal" value="0.00" name="TotalFinal" class="form-control" />
+                    FinalTotal:
+                    <input style="text-align : right" type="text" readonly="readonly" id="txtFinalTotal" value="0.00" name="FinalTotal" class="form-control" />
                 </div>
             </div>
         </div>
@@ -245,13 +270,13 @@
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    Price;
+                    Price:
                     <input style="text-align : right" type="text" readonly="readonly" id="txtPrice" value="0.00" name="Price" class="form-control" />
                 </div>
             </div>
             <div class=" col-md-4">
                 <div class="form-group">
-                    Quantity;
+                    Quantity:
                     <input style="text-align: right" type="text" id="txtQuantity" value="0.00" name="Quantity" class="form-control" />
                 </div>
             </div>
@@ -260,14 +285,14 @@
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    Discount;
+                    Discount:
                     <input style="text-align: right" type="text" id="txtDiscount" value="0.00" name="Discount" class="form-control" />
                 </div>
             </div>
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    TotalPrice;
+                    TotalPrice:
                     <input style="text-align: right" type="text" readonly="readonly" id="txtTotalPrice" value="0.00" name="TPrice" class="form-control" />
                 </div>
             </div>
@@ -315,7 +340,7 @@
     </table>
 </fieldset>
 <div style="margin-top:10px">
-    <input data-backdrop="modal" data-keydrop="false"
+    <input data-backdrop="static" data-keydrop="false"
            data-toggle="modal" data-target="#divPayment" style="float: right " type="button" value="Checkout" id="btnCheckout" name="CheckOut" class="btn btn-primary" />
 </div>
 
@@ -330,26 +355,27 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         Total Payment:
                         <input style="text-align:right" type="text" value="0.00" id="txtTotalPayment" readonly="readonly" class="form-control" />
                     </div>
-                    <div class="form-group col-md-4">
-                        Return Amount:
-                        <input style="text-align:right" type="text" id="txtReturnAmount" value="0.00" name="ReturnAmount"class="form-control" />
+                    <div class="form-group col-md-3">
+                        Payment Amount:
+                        <input style="text-align:right" type="text" id="txtPaymentAmount" value="0.00" name="PaymentAmount"class="form-control" />
                     </div>
                 </div>
 
 
                 <div class="row">
-                    @*<div class="form-group col-md-6">
-            Return:
-            <input  style="text-align:right" type="text" value="0.00" id="txtReturn"  class="form-control" />
-        </div>*@
-                    <div class="form-group col-md-6">
-                        Balance;
-                        <input style="text-align: right" type="text" id="txtBalance" value="0.00" name="Balance" class="form-control" />
+                    @*<div class="form-group col-md-3">
+                        Return Total:
+                        <input style="text-align: right" type="text" id="txtReturn" value="0.00" name="ReturnTotal" class="form-control" />
+                    </div>*@
+                    <div class="form-group col-md-3">
+                        Balance:
+                        <input style="text-align:right" type="text" value="0.00" id="txtBalance" name="Balance" readonly="readonly" class="form-control" />
                     </div>
+
                 </div>
                 </div>
             </div>

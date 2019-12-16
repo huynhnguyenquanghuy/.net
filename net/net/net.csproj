@@ -135,16 +135,7 @@
     <Compile Include="Models\Item.cs">
       <DependentUpon>ResDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OderDeatail1.cs">
-      <DependentUpon>ResDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Order.cs">
-      <DependentUpon>ResDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Order1.cs">
-      <DependentUpon>ResDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OrderDeatail1.cs">
       <DependentUpon>ResDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderDetail.cs">

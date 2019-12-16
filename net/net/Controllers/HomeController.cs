@@ -14,8 +14,6 @@ namespace net.Controllers
         // GET: Home
 
         private resEntities objresEntities;
-        private OrderViewModel objorderViewModel;
-
         public HomeController()
         {
             objresEntities = new resEntities();
@@ -37,13 +35,12 @@ namespace net.Controllers
             decimal unitPrice = objresEntities.Items.Single(model => model.ItemId == itemId).ItemPirce;
             return Json(unitPrice, JsonRequestBehavior.AllowGet);
         }
-
         [HttpPost]
-        public JsonResult Index(OrderViewModel objoderViewModel)
+        public JsonResult Index(OrderViewModel objOrderViewModel)
         {
-            OrderRepo objorderRepo = new OrderRepo();
-            objorderRepo.AddOrder(objorderViewModel);
-            return Json(data: "oke", JsonRequestBehavior.AllowGet);
+            OrderRepo objOrderRepo = new OrderRepo();
+            objOrderRepo.AddOrder(objOrderViewModel);
+            return Json(data: "Success", JsonRequestBehavior.AllowGet);
         }
     }
 }

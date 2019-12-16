@@ -127,101 +127,14 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
-          <EntitySet Name="OderDeatail1" EntityType="resModel.OderDeatail1" />
-          <EntitySet Name="Order1" EntityType="resModel.Order1" />
-          <AssociationSet Name="FK_OderDeatails_Oders1" Association="resModel.FK_OderDeatails_Oders1">
-            <End Role="Order1" EntitySet="Order1" />
-            <End Role="OderDeatail1" EntitySet="OderDeatail1" />
-          </AssociationSet>
-          <EntitySet Name="OrderDeatail1" EntityType="resModel.OrderDeatail1" />
-          <AssociationSet Name="FK_OderDeatails_Oders2" Association="resModel.FK_OderDeatails_Oders2">
-            <End Role="Order1" EntitySet="Order1" />
-            <End Role="OrderDeatail1" EntitySet="OrderDeatail1" />
-          </AssociationSet>
-          <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
           <EntitySet Name="Orders" EntityType="resModel.Order" />
           <EntitySet Name="OrderDetails" EntityType="resModel.OrderDetail" />
+          <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
           <AssociationSet Name="FK_OrderDetails_Order1" Association="resModel.FK_OrderDetails_Order1">
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="OderDeatail1">
-          <Key>
-            <PropertyRef Name="OrderDetailId" />
-          </Key>
-          <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Order" Relationship="resModel.FK_OderDeatails_Oders1" FromRole="OderDeatail1" ToRole="Order1" />
-        </EntityType>
-        <EntityType Name="Order1">
-          <Key>
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PaymentType" Type="Int32" Nullable="false" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="OrderName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FinalTotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="OderDeatails" Relationship="resModel.FK_OderDeatails_Oders1" FromRole="Order1" ToRole="OderDeatail1" />
-          <NavigationProperty Name="OrderDeatails" Relationship="resModel.FK_OderDeatails_Oders2" FromRole="Order1" ToRole="OrderDeatail1" />
-        </EntityType>
-        <Association Name="FK_OderDeatails_Oders1">
-          <End Type="resModel.Order1" Role="Order1" Multiplicity="1" />
-          <End Type="resModel.OderDeatail1" Role="OderDeatail1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order1">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="OderDeatail1">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="OrderDeatail1">
-          <Key>
-            <PropertyRef Name="OrderDetailId" />
-          </Key>
-          <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Order" Relationship="resModel.FK_OderDeatails_Oders2" FromRole="OrderDeatail1" ToRole="Order1" />
-        </EntityType>
-        <Association Name="FK_OderDeatails_Oders2">
-          <End Type="resModel.Order1" Role="Order1" Multiplicity="1" />
-          <End Type="resModel.OrderDeatail1" Role="OrderDeatail1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order1">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="OrderDeatail1">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Transaction">
-          <Key>
-            <PropertyRef Name="TransactionId" />
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="TransactionDate" />
-          </Key>
-          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TypeId" Type="Int32" />
-        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="OrderId" />
@@ -246,6 +159,19 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
           <Property Name="Discount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Order" Relationship="resModel.FK_OrderDetails_Order1" FromRole="OrderDetail" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="TransactionDate" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TypeId" Type="Int32" />
         </EntityType>
         <Association Name="FK_OrderDetails_Order1">
           <End Type="resModel.Order" Role="Order" Multiplicity="1" />
@@ -290,17 +216,6 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Transactions">
-            <EntityTypeMapping TypeName="resModel.Transaction">
-              <MappingFragment StoreEntitySet="Transactions">
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
-                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="resModel.Order">
               <MappingFragment StoreEntitySet="Order">
@@ -326,7 +241,18 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="resModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
