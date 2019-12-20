@@ -2,189 +2,125 @@
 @{
     ViewBag.Title = "Index";
 }
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#Item").val(0);
-            $("#Item").change(function () {
-                var itemId = $("#Item").val();
-                getItemPrice(itemId);
-            });
-            $("input[type = text]").change(function () {
-                calTotal();
-            });
-            $("input[type = text]").keyup(function () {
-                calBalance();
-            });
-            $("#btnAddToList").click(function () {
-                addToTheItemList();
-            });
-            $("#btnPayment").click(function () {
-                finalPayment();
-            });
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Item").val(0);
+        $("#Item").change(function () {
+            var itemId = $("#Item").val();
+            getItemPrice(itemId);
         });
+        $("input[type = text]").change(function () {
+            calTotal();
+        });
+        $("input[type = text]").keyup(function () {
+            calBalance();
+        });
+        $("#btnAddToList").click(function () {
+            addToTheItemList();
+        });
+    });
 
-        function finalPayment() {
-            var objOderViewModel = {};
-            var ListOfOrderDeatilsViewModel = new Array();
-            //ListOfOrderDeatilsViewModel
-            objOderViewModel.PaymentTypeId = ("#PaymentType").val();
-            objOderViewModel.CustomerId = ("#Customer").val();
-            objOderViewModel.FinalTotal = ("#txtFinalTotal").val();
-            $("#tblItemList").find("tr:gt(0)").each(function () {
-                var OderDeatailsViewModel = {}
-                OderDeatailsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
-                OderDeatailsViewModel.Itemid = parseFloat($(this).find("td:eq(0)").text());
-                OderDeatailsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
-                OderDeatailsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
-                OderDeatailsViewModel.Dicsount = parseFloat($(this).find("td:eq(4)").text());
-                ListOfOrderDeatilsViewModel.push(OderDeatailsViewModel);
+    function calTotal() {
+        var Price = $("#txtPrice").val();
+        var Discount = $("#txtDiscount").val();
+        var Quantity = $("#txtQuantity").val();
+        var Total = (Price * Quantity) - Discount;
+        $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
 
-            });
-            objOderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
-            $.ajax({
-                async: true,
-                type: 'POST',
-                dataType: 'JSON',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(objOderViewModel),
-                url: '/Home/Index',
-                success: function (data) {
-                    alert(data);
-                },
-                error: function () {
-                    alert("problem");
-                },
-            })
-        }
+    }
 
-        function calTotal() {
-            var Price = $("#txtPrice").val();
-            var Discount = $("#txtDiscount").val();
-            var Quantity = $("#txtQuantity").val();
-            var Total = (Price * Quantity) - Discount;
-            $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
+    function calBalance() {
+        var TotalPayment = $("#txtTotalPayment").val();
+        var GuestAmount = $("#txtGuestAmount").val();
+        var Balance = TotalPayment - GuestAmount;
+        $("#txtBalance").val(parseFloat(Balance).toFixed(2));
+    }
 
-        }
+    function addToTheItemList() {
+        var tblItemList = $("#tblItemList");
+        var Price = $("#txtPrice").val();
+        var Quantity = $("#txtQuantity").val();
+        var Discount = $("#txtDiscount").val();
+        var ItemId = $("#Item").val();
+        var ItemName = $("#Item option:selected").text();
+        var Total = (Price * Quantity) - Discount;
 
-     
+        var ItemList = "<tr><td hidden>" +
+            ItemId +
+            "</td> <td>" +
+            ItemName +
+            "</td> <td>" +
+            parseFloat(Price).toFixed(2) +
+            "</td> <td>" +
+            parseFloat(Quantity).toFixed(2) +
+            "</td> <td>" +
+            parseFloat(Discount).toFixed(2) +
+            "</td> <td>" +
+            parseFloat(Total).toFixed(2) +
+            "</td> <td> <input type ='button' value='Remove' name='remove' class= 'btn btn-danger' onclick='RemoveItem(this)'/> </tr></tr>";
 
-        function addToTheItemList() {
-            var tblItemList = $("#tblItemList");
-            var Price = $("#txtPrice").val();
-            var Quantity = $("#txtQuantity").val();
-            var Discount = $("#txtDiscount").val();
-            var ItemId = $("#Item").val();
-            var ItemName = $("#Item option:selected").text();
-            var Total = (Price * Quantity) - Discount;
+        tblItemList.append(ItemList);
+        RestItem();
+        FinalItemTotal();
 
-            var ItemList = "<tr><td hidden>" +
-                ItemId +
-                "</td> <td>" +
-                ItemName +
-                "</td> <td>" +
-                parseFloat(Price).toFixed(2) +
-                "</td> <td>" +
-                parseFloat(Quantity).toFixed(2) +
-                "</td> <td>" +
-                parseFloat(Discount).toFixed(2) +
-                "</td> <td>" +
-                parseFloat(Total).toFixed(2) +
-                "</td> <td> <input type ='button' value='Remove' name='remove' class= 'btn btn-danger' onclick='RemoveItem(this)'/> </tr></tr>";
+    }
 
-            tblItemList.append(ItemList);
-            RestItem();
-            FinalItemTotal();
+    function FinalItemTotal() {
+        $("#txtTotalFinal").val("0.00");
+        var FinalTotal = 0.00;
+        $("#tblItemList").find("tr:gt(0)").each(function () {
+            var Total = parseFloat($(this).find("td:eq(5)").text());
+            FinalTotal += Total;
+            //alert(FinalTotal)
 
-        }
-            
-        //function FinalItemTotal() {
-        //    $("#txtFinalTotal").val("0.00");
-        //    var FinalTotal = 0.00;
-        //    $("#tblItemList").find("tr:gt(0)").each(function () {
-        //        var Total = parseFloat($(this).find("td:eq(5)").text());
-        //        FinalTotal += Total;
-        //        //alert(FinalTotal)
+        });
+        $("#txtTotalFinal").val(parseFloat(FinalTotal).toFixed(2));
+        $("#txtTotalPayment").val(parseFloat(FinalTotal).toFixed(2));
+        $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
 
-        //    });
-        //    $("#txtFinalTotal").val(parseFloat(FinalTotal).toFixed(2));
-        //    $("#txtTotalPayment").val(parseFloat(FinalTotal).toFixed(2));
-        //    $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
-              
-        //}
+    }
 
-        //function calBalance() {
-        //    var Final = $("txtTotalPayment").val();
-        //    var PaymentAmount = $("txtPaymentAmount").val();
-        //    var ReturnAmount = $("txtReturn").val();
-        //    var BalanceAmount = (parseFloat(Final) - parseFloat(PaymentAmount)) + parseFloat(ReturnAmount);
-        //    $("#txtBalance").val(parseFloat(BalanceAmount));
-        //}
+    function RemoveItem(Itemid) {
+        $(Itemid).closest('tr').remove();
+    }
+    function RestItem() {
+        $("#txtPrice").val('');
+        $("#txtQuantity").val('1');
+        $("#txtDiscount").val('0.00');
+        $("#Item").val(0);
+        $("#txtTotalPrice").val("");
+    }
 
-        function FinalItemTotal() {
-            $("#txtTotalFinal").val("0.00");
-            var FinalTotal = 0.00;
-            $("#tblItemList").find("tr:gt(0)").each(function () {
-                var Total = parseFloat($(this).find("td:eq(5)").text());
-                FinalTotal += Total;
-                //alert(FinalTotal)
+    function getItemPrice(itemId) {
+        $.ajax({
+            async: true,
+            type: 'GET',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: { itemId: itemId },
+            url: '/home/getItemPrice',
+            success: function (data) {
+                $("#txtPrice").val(parseFloat(data).toFixed(2));
+            },
+            error: function () {
+                alert("ko co");
+            }
 
-            });
-            $("#txtTotalFinal").val(parseFloat(FinalTotal).toFixed(2));
-            $("#txtTotalPayment").val(parseFloat(FinalTotal).toFixed(2));
-            $("#txtBalance").val(parseFloat(FinalTotal).toFixed(2));
-    
-        }
+        })
+    }
+    function calTotal() {
+        var Price = $("#txtPrice").val();
+        var Discount = $("#txtDiscount").val();
+        var Quantity = $("#txtQuantity").val();
+        var Total = (Price * Quantity) - Discount;
+        $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
 
-
-         function calBalance() {
-            var TotalPayment = $("#txtTotalPayment").val();
-            var ReturnAmount = $("#txtReturnAmount").val();
-            var Balance = TotalPayment - ReturnAmount;
-            $("#txtBalance").val(parseFloat(Balance).toFixed(2));
-        }
-
-        function RemoveItem(Itemid) {
-            $(Itemid).closest('tr').remove();
-        }
-
-        function RestItem() {
-            $("#txtPrice").val('');
-            $("#txtQuantity").val('1');
-            $("#txtDiscount").val('0.00');
-            $("#Item").val(0);
-            $("#txtTotalPrice").val("");
-           
-        }
-
-        function getItemPrice(itemId) {
-            $.ajax({
-                async: true,
-                type: 'GET',
-                dataType: 'JSON',
-                contentType: 'application/json; charset=utf-8',
-                data: { itemId: itemId },
-                url: '/home/getItemPrice',
-                success: function (data) {
-                    $("#txtPrice").val(parseFloat(data).toFixed(2));
-                },
-                error: function () {
-                    alert("ko co");
-                }
-
-            })
-        }
-        function calTotal() {
-            var Price = $("#txtPrice").val();
-            var Discount = $("#txtDiscount").val();
-            var Quantity = $("#txtQuantity").val();
-            var Total = (Price * Quantity) - Discount;
-            $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
-
-        }
-    </script>
+    }
+</script>
 
 <style>
+
     /*.modal{
         text-align:center;
         padding:0!important;
@@ -248,8 +184,8 @@
             </div>
             <div class=" col-md-4">
                 <div class="form-group">
-                    FinalTotal:
-                    <input style="text-align : right" type="text" readonly="readonly" id="txtFinalTotal" value="0.00" name="FinalTotal" class="form-control" />
+                    TotalFinal:
+                    <input style="text-align : right" type="text" readonly="readonly" id="txtTotalFinal" value="0.00" name="TotalFinal" class="form-control" />
                 </div>
             </div>
         </div>
@@ -270,13 +206,13 @@
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    Price:
+                    Price;
                     <input style="text-align : right" type="text" readonly="readonly" id="txtPrice" value="0.00" name="Price" class="form-control" />
                 </div>
             </div>
             <div class=" col-md-4">
                 <div class="form-group">
-                    Quantity:
+                    Quantity;
                     <input style="text-align: right" type="text" id="txtQuantity" value="0.00" name="Quantity" class="form-control" />
                 </div>
             </div>
@@ -285,14 +221,14 @@
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    Discount:
+                    Discount;
                     <input style="text-align: right" type="text" id="txtDiscount" value="0.00" name="Discount" class="form-control" />
                 </div>
             </div>
 
             <div class=" col-md-4">
                 <div class="form-group">
-                    TotalPrice:
+                    TotalPrice;
                     <input style="text-align: right" type="text" readonly="readonly" id="txtTotalPrice" value="0.00" name="TPrice" class="form-control" />
                 </div>
             </div>
@@ -340,7 +276,7 @@
     </table>
 </fieldset>
 <div style="margin-top:10px">
-    <input data-backdrop="static" data-keydrop="false"
+    <input data-backdrop="modal" data-keydrop="false"
            data-toggle="modal" data-target="#divPayment" style="float: right " type="button" value="Checkout" id="btnCheckout" name="CheckOut" class="btn btn-primary" />
 </div>
 
@@ -355,36 +291,35 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         Total Payment:
                         <input style="text-align:right" type="text" value="0.00" id="txtTotalPayment" readonly="readonly" class="form-control" />
                     </div>
-                    <div class="form-group col-md-3">
-                        Payment Amount:
-                        <input style="text-align:right" type="text" id="txtPaymentAmount" value="0.00" name="PaymentAmount"class="form-control" />
+                    <div class="form-group col-md-4">
+                        Guest Amount:
+                        <input style="text-align:right" type="text" id="txtGuestAmount" value="0.00" name="GuestAmount" class="form-control" />
                     </div>
                 </div>
 
 
                 <div class="row">
-                    @*<div class="form-group col-md-3">
-                        Return Total:
-                        <input style="text-align: right" type="text" id="txtReturn" value="0.00" name="ReturnTotal" class="form-control" />
-                    </div>*@
-                    <div class="form-group col-md-3">
-                        Balance:
-                        <input style="text-align:right" type="text" value="0.00" id="txtBalance" name="Balance" readonly="readonly" class="form-control" />
+                    @*<div class="form-group col-md-6">
+                            Return:
+                            <input  style="text-align:right" type="text" value="0.00" id="txtReturn"  class="form-control" />
+                        </div>*@
+                    <div class="form-group col-md-6">
+                        Balance;
+                        <input style="text-align: right" type="text" id="txtBalance" readonly="readonly" value="0.00" name="Balance" class="form-control" />
                     </div>
-
                 </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" id="btnPayment" value="Payment">Payment</button>
-                <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
             </div>
         </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" id="btnPayment" value="Payment">Payment</button>
+            <button class="btn btn-danger" id="btnClose" data-dismiss="modal" value="close">Close</button>
+        </div>
     </div>
+</div>
 </div>
 
 <h2>Index</h2>
