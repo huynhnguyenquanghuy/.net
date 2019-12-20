@@ -40,7 +40,7 @@ namespace net.Controllers
         {
             OrderRepo objOrderRepo = new OrderRepo();
             objOrderRepo.AddOrder(objOrderViewModel);
-            return Json(data: "Success", JsonRequestBehavior.AllowGet);
+            return Json(data:"", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -19,8 +19,44 @@
         $("#btnAddToList").click(function () {
             addToTheItemList();
         });
+        $("#btnPayment").click(function () {
+            finalPayment();
+        });
     });
 
+    function finalPayment() {
+            var objOderViewModel = {};
+            var ListOfOrderDeatilsViewModel = new Array();
+            //ListOfOrderDeatilsViewModel
+            objOderViewModel.PaymentTypeId = ("#PaymentType").val();
+            objOderViewModel.CustomerId = ("#Customer").val();
+            objOderViewModel.FinalTotal = ("#txtFinalTotal").val();
+            $("#tblItemList").find("tr:gt(0)").each(function () {
+                var OderDeatailsViewModel = {}
+                OderDeatailsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+                OderDeatailsViewModel.Itemid = parseFloat($(this).find("td:eq(0)").text());
+                OderDeatailsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
+                OderDeatailsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+                OderDeatailsViewModel.Dicsount = parseFloat($(this).find("td:eq(4)").text());
+                ListOfOrderDeatilsViewModel.push(OderDeatailsViewModel);
+
+            });
+        objOderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(objOderViewModel),
+            url: 'Home/Index',
+            success: function (data) {
+                alert(data);
+            },
+            error: function () {
+                alert("lỗi");
+            },
+        })
+        }
     function calTotal() {
         var Price = $("#txtPrice").val();
         var Discount = $("#txtDiscount").val();
@@ -33,8 +69,15 @@
     function calBalance() {
         var TotalPayment = $("#txtTotalPayment").val();
         var GuestAmount = $("#txtGuestAmount").val();
-        var Balance = TotalPayment - GuestAmount;
+        var Return = $("#txtReturn").val();
+        var Balance = (parseFloat(TotalPayment) - parseFloat(GuestAmount)) + parseFloat(Return);
         $("#txtBalance").val(parseFloat(Balance).toFixed(2));
+        if (parseFloat(Balance) == 0) {
+            $("#btnPayment").removeAttr("disabled");
+        }
+        else {
+             $("#btnPayment").attr("disabled", "disabled");
+        };
     }
 
     function addToTheItemList() {
@@ -90,6 +133,12 @@
         $("#txtDiscount").val('0.00');
         $("#Item").val(0);
         $("#txtTotalPrice").val("");
+        $("#txtReturn").val('0.00');
+        $("#txtGuestAmount").val("");
+        $("#txtBalance").val("0.00");
+       
+
+
     }
 
     function getItemPrice(itemId) {
@@ -291,11 +340,11 @@
         <div class="modal-body">
             <div class="container">
                 <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         Total Payment:
                         <input style="text-align:right" type="text" value="0.00" id="txtTotalPayment" readonly="readonly" class="form-control" />
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         Guest Amount:
                         <input style="text-align:right" type="text" id="txtGuestAmount" value="0.00" name="GuestAmount" class="form-control" />
                     </div>
@@ -303,11 +352,11 @@
 
 
                 <div class="row">
-                    @*<div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             Return:
-                            <input  style="text-align:right" type="text" value="0.00" id="txtReturn"  class="form-control" />
-                        </div>*@
-                    <div class="form-group col-md-6">
+                            <input  style="text-align:right" type="text" value="0.00" name="Return" id="txtReturn"  class="form-control" />
+                        </div>
+                    <div class="form-group col-md-3">
                         Balance;
                         <input style="text-align: right" type="text" id="txtBalance" readonly="readonly" value="0.00" name="Balance" class="form-control" />
                     </div>
