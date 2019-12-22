@@ -28,11 +28,11 @@
     <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
     <EntitySet Name="Orders" EntityType="resModel.Order" />
     <EntitySet Name="OrderDetails" EntityType="resModel.OrderDetail" />
-    <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
     <AssociationSet Name="FK_OrderDetails_Order1" Association="resModel.FK_OrderDetails_Order1">
       <End Role="Order" EntitySet="Orders" />
       <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
+    <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
   </EntityContainer>
   <EntityType Name="Order">
     <Key>
@@ -59,19 +59,6 @@
     <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <NavigationProperty Name="Order" Relationship="resModel.FK_OrderDetails_Order1" FromRole="OrderDetail" ToRole="Order" />
   </EntityType>
-  <EntityType Name="Transaction">
-    <Key>
-      <PropertyRef Name="TransactionId" />
-      <PropertyRef Name="ItemId" />
-      <PropertyRef Name="Quantity" />
-      <PropertyRef Name="TransactionDate" />
-    </Key>
-    <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ItemId" Type="Int32" Nullable="false" />
-    <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="TypeId" Type="Int32" />
-  </EntityType>
   <Association Name="FK_OrderDetails_Order1">
     <End Type="resModel.Order" Role="Order" Multiplicity="1" />
     <End Type="resModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
@@ -84,4 +71,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+    </Key>
+    <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TypeId" Type="Int32" />
+  </EntityType>
 </Schema>

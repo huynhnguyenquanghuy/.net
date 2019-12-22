@@ -25,29 +25,29 @@
     });
 
     function finalPayment() {
-            var objOderViewModel = {};
-            var ListOfOrderDeatilsViewModel = new Array();
-            //ListOfOrderDeatilsViewModel
-            objOderViewModel.PaymentTypeId = ("#PaymentType").val();
-            objOderViewModel.CustomerId = ("#Customer").val();
-            objOderViewModel.FinalTotal = ("#txtFinalTotal").val();
+            var objOrderViewModel = {};
+            var ListOfOrderDetailViewModel = new Array();
+            //OrderDetailViewModel
+            objOrderViewModel.PaymentTypeId = $("#PaymentType").val();
+            objOrderViewModel.CustomerId = $("#Customer").val();
+            objOrderViewModel.FinalTotal = $("#txtTotalFinal").val();
             $("#tblItemList").find("tr:gt(0)").each(function () {
-                var OderDeatailsViewModel = {}
-                OderDeatailsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
-                OderDeatailsViewModel.Itemid = parseFloat($(this).find("td:eq(0)").text());
-                OderDeatailsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
-                OderDeatailsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
-                OderDeatailsViewModel.Dicsount = parseFloat($(this).find("td:eq(4)").text());
-                ListOfOrderDeatilsViewModel.push(OderDeatailsViewModel);
-
+                var OrderDetailViewModel = {};
+                OrderDetailViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+                OrderDetailViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
+                OrderDetailViewModel.Price = parseFloat($(this).find("td:eq(2)").text());
+                OrderDetailViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+                OrderDetailViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
+                ListOfOrderDetailViewModel.push(OrderDetailViewModel);
             });
-        objOderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+            objOrderViewModel.ListOfOrderDetailViewModel = ListOfOrderDetailViewModel;
+
         $.ajax({
             async: true,
             type: 'POST',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(objOderViewModel),
+            data: JSON.stringify(objOrderViewModel),
             url: 'Home/Index',
             success: function (data) {
                 alert(data);
@@ -134,8 +134,8 @@
         $("#Item").val(0);
         $("#txtTotalPrice").val("");
         $("#txtReturn").val('0.00');
-        $("#txtGuestAmount").val("");
-        $("#txtBalance").val("0.00");
+        $("#txtGuestAmount").val("0.00");
+        
        
 
 

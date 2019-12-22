@@ -169,7 +169,7 @@
     <Compile Include="Repo\PaymentTypeRepo.cs" />
     <Compile Include="ViewModel\CustomerViewModel.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
-    <Compile Include="ViewModel\OrderDeatailsViewModel.cs" />
+    <Compile Include="ViewModel\OrderDetailViewModel.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="ViewModel\PaymentTypeViewModel.cs" />
   </ItemGroup>

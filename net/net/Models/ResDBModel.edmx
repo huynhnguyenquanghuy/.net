@@ -50,14 +50,9 @@
           <Property Name="Discount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'res.order.Transactions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Transactions">
           <Key>
             <PropertyRef Name="TransactionId" />
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="TransactionDate" />
           </Key>
           <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemId" Type="int" Nullable="false" />
@@ -83,15 +78,7 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
           <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="Master" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="order" store:Type="Tables" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="order" store:Type="Tables" />
-          <EntitySet Name="Transactions" EntityType="Self.Transactions" store:Type="Tables" store:Schema="order">
-            <DefiningQuery>SELECT 
-    [Transactions].[TransactionId] AS [TransactionId], 
-    [Transactions].[ItemId] AS [ItemId], 
-    [Transactions].[Quantity] AS [Quantity], 
-    [Transactions].[TransactionDate] AS [TransactionDate], 
-    [Transactions].[TypeId] AS [TypeId]
-    FROM [order].[Transactions] AS [Transactions]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="order" store:Type="Tables" />
           <AssociationSet Name="FK_OrderDetails_Order1" Association="Self.FK_OrderDetails_Order1">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
@@ -129,11 +116,11 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <EntitySet Name="Orders" EntityType="resModel.Order" />
           <EntitySet Name="OrderDetails" EntityType="resModel.OrderDetail" />
-          <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
           <AssociationSet Name="FK_OrderDetails_Order1" Association="resModel.FK_OrderDetails_Order1">
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
+          <EntitySet Name="Transactions" EntityType="resModel.Transaction" />
         </EntityContainer>
         <EntityType Name="Order">
           <Key>
@@ -160,19 +147,6 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Order" Relationship="resModel.FK_OrderDetails_Order1" FromRole="OrderDetail" ToRole="Order" />
         </EntityType>
-        <EntityType Name="Transaction">
-          <Key>
-            <PropertyRef Name="TransactionId" />
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="TransactionDate" />
-          </Key>
-          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TypeId" Type="Int32" />
-        </EntityType>
         <Association Name="FK_OrderDetails_Order1">
           <End Type="resModel.Order" Role="Order" Multiplicity="1" />
           <End Type="resModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
@@ -185,6 +159,16 @@ warning 6002: The table/view 'res.order.Transactions' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TypeId" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

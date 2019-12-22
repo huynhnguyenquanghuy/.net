@@ -1,11 +1,11 @@
-﻿using System;
+﻿using net.Models;
+using net.Repo;
+using net.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using net.Models;
-using net.Repo;
-using net.ViewModel;
 
 namespace net.Controllers
 {
@@ -35,12 +35,14 @@ namespace net.Controllers
             decimal unitPrice = objresEntities.Items.Single(model => model.ItemId == itemId).ItemPirce;
             return Json(unitPrice, JsonRequestBehavior.AllowGet);
         }
+        
         [HttpPost]
+
         public JsonResult Index(OrderViewModel objOrderViewModel)
         {
             OrderRepo objOrderRepo = new OrderRepo();
             objOrderRepo.AddOrder(objOrderViewModel);
-            return Json(data:"", JsonRequestBehavior.AllowGet);
+            return Json(data: "Successfully", JsonRequestBehavior.AllowGet);
         }
     }
 }
