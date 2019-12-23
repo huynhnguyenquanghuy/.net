@@ -1,0 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace net.ViewModel
+{
+    public class OrderDeatailsViewModel
+    {
+        public int OrderDeatail { get; set; }
+        public int OrderId { get; set; }
+        public int ItemId { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Dicsount { get; set; }
+        public decimal Total { get; set; }
+    }
+}

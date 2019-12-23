@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using net.Models;
+using net.ViewModel;
+
+namespace net.Repo
+{
+    
+    public class OrderRepo
+    {
+        private resEntities objresEntities;
+
+        public OrderRepo() { 
+        objresEntities = new resEntities();
+
+        }
+        public bool AddOrder(OrderViewModel objorderViewModel)
+        {
+            Order objorder = new Order();
+            objorder.CustomerId = objorderViewModel.CustomerId;
+            objorder.FinalTotal = objorderViewModel.FinalTotal;
+            objorder.OrderDate = objorderViewModel.OrderDate;
+            objorder.OrderNumber = String.Format("{0:ddmmmyyyyhhmmss}", DateTime.Now);
+            objorder.PaymentTypeId = objorderViewModel.PaymentTypeId;
+            objresEntities.Orders.Add(objorder);
+            objresEntities.SaveChanges();
+            int OrderId = objorder.OrderId;
+            foreach(var item in objorderViewModel.ListOfOrderDeatilsViewModel)
+            {
+                OrderDetail objorderDetail = new OrderDetail();
+                objorderDetail.OrderId = OrderId;
+                objorderDetail.Discount = item.Dicsount;
+                objorderDetail.ItemId = item.ItemId;
+                objorderDetail.Total = item.Total;
+                objorderDetail.Price = item.UnitPrice;
+                objorderDetail.Quantity = item.Quantity;
+                objresEntities.OrderDetails.Add(objorderDetail);
+                objresEntities.SaveChanges();
+
+                Transaction objtransaction = new Transaction();
+                objtransaction.ItemId = item.ItemId;
+                objtransaction.Quantity = (-1)*item.Quantity;
+                objtransaction.TransactionDate = DateTime.Now;
+                objtransaction.TypeId = 2;
+                objresEntities.Transactions.Add(objtransaction);
+                objresEntities.SaveChanges();
+
+
+            }
+            return true;
+        }
+    }
+}

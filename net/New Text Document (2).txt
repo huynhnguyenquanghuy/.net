@@ -1,0 +1,43 @@
+$("#btnPayment").click(function () {
+                finalPayment();
+            });
+        });
+
+        function finalPayment() {
+            var objOderViewModel = {};
+            var ListOfOrderDeatilsViewModel = new Array();
+            //ListOfOrderDeatilsViewModel
+            objOderViewModel.PaymentTypeId = ("#PaymentType").val();
+            objOderViewModel.CustomerId = ("#Customer").val();
+            objOderViewModel.FinalTotal = ("#txtTotalFinal").val();
+            $("#tblItemList").find("tr:gt(0)").each(function () {
+                var OderDeatailsViewModel = {}
+                OderDeatailsViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+                OderDeatailsViewModel.Itemid = parseFloat($(this).find("td:eq(0)").text());
+                OderDeatailsViewModel.UnitPrice = parseFloat($(this).find("td:eq(2)").text());
+                OderDeatailsViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+                OderDeatailsViewModel.Dicsount = parseFloat($(this).find("td:eq(4)").text());
+                ListOfOrderDeatilsViewModel.push(OderDeatailsViewModel);
+
+            });
+            objOderViewModel.ListOfOrderDeatilsViewModel = ListOfOrderDeatilsViewModel;
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(objOderViewModel),
+                url: '/Home/Index',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert("problem");
+                },
+            })
+        }
+
+
+
+
+
