@@ -24,39 +24,28 @@
         });
     });
 
-    function finalPayment() {
-            var objOrderViewModel = {};
-            var ListOfOrderDetailViewModel = new Array();
-            //OrderDetailViewModel
-            objOrderViewModel.PaymentTypeId = $("#PaymentType").val();
-            objOrderViewModel.CustomerId = $("#Customer").val();
-            objOrderViewModel.FinalTotal = $("#txtTotalFinal").val();
-            $("#tblItemList").find("tr:gt(0)").each(function () {
-                var OrderDetailViewModel = {};
-                OrderDetailViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
-                OrderDetailViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
-                OrderDetailViewModel.Price = parseFloat($(this).find("td:eq(2)").text());
-                OrderDetailViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
-                OrderDetailViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
-                ListOfOrderDetailViewModel.push(OrderDetailViewModel);
-            });
-            objOrderViewModel.ListOfOrderDetailViewModel = ListOfOrderDetailViewModel;
-
+    function getItemPrice(itemId) {
         $.ajax({
             async: true,
-            type: 'POST',
+            type: 'GET',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(objOrderViewModel),
-            url: 'Home/Index',
+            data: { itemId: itemId },
+            url: '/home/getItemPrice',
             success: function (data) {
-                alert(data);
+                $("#txtPrice").val(parseFloat(data).toFixed(2));
             },
             error: function () {
-                alert("lỗi");
-            },
+                alert("không đưa ra được ");
+            }
+
         })
-        }
+    }
+        function RemoveItem(Itemid) {
+        $(Itemid).closest('tr').remove();
+    }
+    
+
     function calTotal() {
         var Price = $("#txtPrice").val();
         var Discount = $("#txtDiscount").val();
@@ -124,9 +113,43 @@
 
     }
 
-    function RemoveItem(Itemid) {
-        $(Itemid).closest('tr').remove();
-    }
+    function finalPayment() {
+            var objOrderViewModel = {};
+            var ListOfOrderDetailViewModel = new Array();
+            //OrderDetailViewModel
+            objOrderViewModel.PaymentTypeId = $("#PaymentType").val();
+            objOrderViewModel.CustomerId = $("#Customer").val();
+            objOrderViewModel.FinalTotal = $("#txtTotalFinal").val();
+            $("#tblItemList").find("tr:gt(0)").each(function () {
+                var OrderDetailViewModel = {};
+                OrderDetailViewModel.Total = parseFloat($(this).find("td:eq(5)").text());
+                OrderDetailViewModel.ItemId = parseFloat($(this).find("td:eq(0)").text());
+                OrderDetailViewModel.Price = parseFloat($(this).find("td:eq(2)").text());
+                OrderDetailViewModel.Quantity = parseFloat($(this).find("td:eq(3)").text());
+                OrderDetailViewModel.Discount = parseFloat($(this).find("td:eq(4)").text());
+                ListOfOrderDetailViewModel.push(OrderDetailViewModel);
+            });
+            objOrderViewModel.ListOfOrderDetailViewModel = ListOfOrderDetailViewModel;
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(objOrderViewModel),
+            url: 'Home/Index',
+            success: function (data) {
+                alert(data);
+            },
+            error: function () {
+                alert("lỗi");
+            },
+        })
+        }
+    
+
+    
+
     function RestItem() {
         $("#txtPrice").val('');
         $("#txtQuantity").val('1');
@@ -135,37 +158,13 @@
         $("#txtTotalPrice").val("");
         $("#txtReturn").val('0.00');
         $("#txtGuestAmount").val("0.00");
-        
-       
-
-
     }
+    
 
-    function getItemPrice(itemId) {
-        $.ajax({
-            async: true,
-            type: 'GET',
-            dataType: 'JSON',
-            contentType: 'application/json; charset=utf-8',
-            data: { itemId: itemId },
-            url: '/home/getItemPrice',
-            success: function (data) {
-                $("#txtPrice").val(parseFloat(data).toFixed(2));
-            },
-            error: function () {
-                alert("ko co");
-            }
 
-        })
-    }
-    function calTotal() {
-        var Price = $("#txtPrice").val();
-        var Discount = $("#txtDiscount").val();
-        var Quantity = $("#txtQuantity").val();
-        var Total = (Price * Quantity) - Discount;
-        $("#txtTotalPrice").val(parseFloat(Total).toFixed(2));
 
-    }
+    
+    
 </script>
 
 <style>
@@ -213,7 +212,7 @@
 
 <fieldset>
     <legend>
-        Oder
+        Order
     </legend>
     <div class="container">
         <div class="row">
@@ -371,5 +370,5 @@
 </div>
 </div>
 
-<h2>Index</h2>
+<h2>Order</h2>
 
