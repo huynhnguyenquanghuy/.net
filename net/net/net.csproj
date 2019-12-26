@@ -98,6 +98,9 @@
   <ItemGroup>
     <Content Include="Admin\admin.css" />
     <Content Include="Admin\bgcf.jpg" />
+    <Content Include="Admin\bsl.aspx" />
+    <Content Include="Admin\chitiet.aspx" />
+    <Content Include="Admin\editban.aspx" />
     <Content Include="Admin\editmon.aspx" />
     <Content Include="Admin\hoadon.aspx" />
     <Content Include="Admin\Logo.jpg" />
@@ -138,7 +141,28 @@
     <Compile Include="Admin\admm.Master.designer.cs">
       <DependentUpon>admm.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\bsl.aspx.cs">
+      <DependentUpon>bsl.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\bsl.aspx.designer.cs">
+      <DependentUpon>bsl.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\chitiet.aspx.cs">
+      <DependentUpon>chitiet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\chitiet.aspx.designer.cs">
+      <DependentUpon>chitiet.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ConnectToSql.cs" />
+    <Compile Include="Admin\editban.aspx.cs">
+      <DependentUpon>editban.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\editban.aspx.designer.cs">
+      <DependentUpon>editban.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\editmon.aspx.cs">
       <DependentUpon>editmon.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

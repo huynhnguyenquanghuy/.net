@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/admm.Master" AutoEventWireup="true" CodeBehind="hoadon.aspx.cs" Inherits="net.Admin.WebForm2" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/admm.Master" AutoEventWireup="true" CodeBehind="hoadon.aspx.cs" Inherits="net.Admin.hoadon" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
     .auto-style1 {
@@ -32,6 +32,7 @@
             <asp:TextBox ID="txtiname" runat="server" placeholder=" 2019-12-02!!!" type="date"
                 CssClass="txt" Width="129px" Font-Bold="False" Font-Italic="False" 
                 ></asp:TextBox>
+            <br />
         </td>
     </tr>
     <tr>
@@ -41,29 +42,44 @@
             <asp:Button ID="btnadd" runat="server" CssClass="btn" onclick="btnadd_Click" 
                 Text="truy van" Height="30px" Width="100px" />
             <asp:Label ID="lblmsg" runat="server" ForeColor="Black"></asp:Label>
-        
-          
-  
             <asp:Button ID="Button1" runat="server" CssClass="btn" onclick="btnt_Click" 
                 Text="macdinh" Height="30px" Width="100px" />
             <asp:Label ID="Label1" runat="server" ForeColor="Black"></asp:Label>
+            <asp:Button ID="Button3" runat="server" CssClass="btn" onclick="btnbs_Click" 
+                Text="best sell" Height="30px" Width="100px" />
+            <br />
+
         </td>
 
+    </tr>
+    <tr>
+        <td class="auto-style1">
+             orderid</td>
+        <td style="text-align: left" class="auto-style2">
+            <asp:TextBox ID="TextBox1" runat="server" placeholder="nhập orderid muốn xem chi tiết"
+                CssClass="txt" Width="129px" Font-Bold="False" Font-Italic="False" 
+                ></asp:TextBox>
+        
+       <asp:Button ID="Button2" runat="server" CssClass="btn" onclick="btnchitiet_Click" 
+                Text="chi tiet" Height="30px" Width="100px" />
+            <asp:Label ID="Label2" runat="server" ForeColor="Black"></asp:Label>
+            <br />
+        </td>
     </tr>
     <tr>
         <td class="style12">
             &nbsp;</td>
         <td align="left">
             <asp:GridView ID="grvitem" runat="server" AllowPaging="True"
-            AllowSorting="True" AutoGenerateColumns="False" Width="100%" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" >
+            AllowSorting="True" AutoGenerateColumns="False" Width="100%" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" OnSelectedIndexChanged="grvitem_SelectedIndexChanged" >
                 <AlternatingRowStyle BackColor="#DCDCDC" />
                 <Columns>
-                    <asp:BoundField DataField="id" HeaderText="id" SortExpression="id" />
-                    <asp:BoundField DataField="idem" HeaderText="idem" SortExpression="idem" />
-                    <asp:BoundField DataField="iditem" HeaderText="id" SortExpression="id" />
-                    <asp:BoundField DataField="sl" HeaderText="sl" SortExpression="sl" />                
-                    <asp:BoundField DataField="tt" HeaderText="tt" SortExpression="tt" />
-                    <asp:BoundField DataField="datecre" HeaderText="datecre" SortExpression="datecre" />
+                    <asp:BoundField DataField="orderid" HeaderText="orderid" SortExpression="orderid" />
+                    <asp:BoundField DataField="paymenttypeid" HeaderText="paymenttypeid" SortExpression="paymenttypeid" />
+                    <asp:BoundField DataField="customerid" HeaderText="customerid" SortExpression="customerid" />
+                    <asp:BoundField DataField="ordernumber" HeaderText="ordernumber" SortExpression="ordernumber" />                
+                    <asp:BoundField DataField="Orderdate" HeaderText="Orderdate" SortExpression="Orderdate" />
+                    <asp:BoundField DataField="finaltotal" HeaderText="finaltotal" SortExpression="finaltotal" />
                 </Columns>
                 <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
                 <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />

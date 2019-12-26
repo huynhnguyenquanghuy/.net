@@ -84,17 +84,17 @@
                 <tr>
                     <td class="style5">
                         <asp:Button ID="Button9" runat="server"  
-                           Text="Edit menu đồ uống" CssClass="mbtn"
-                            CausesValidation="False" PostBackUrl="~/Admin/editcustomer.aspx" 
+                           Text="Edit bàn" CssClass="mbtn"
+                            CausesValidation="False" PostBackUrl="~/Admin/editban.aspx" 
                             onclick="Button1_Click" />
                     </td>
                 </tr>
                 <tr>
-                    <td   class="style5">
-                        <asp:Button ID="Button3" runat="server" CssClass="mbtn"
-                            Text="Báo cáo doanh thu" 
-                            CausesValidation="False" PostBackUrl="~/Admin/hoadon.aspx" OnClick="Button3_Click" />
-                    </td>
+                    <td class="style5">
+                        <asp:Button ID="Button10" runat="server"  
+                           Text="thống kê" CssClass="mbtn"
+                            CausesValidation="False" PostBackUrl="~/Admin/hoadon.aspx" 
+                            onclick="Button1_Click" />
                 </tr>
                 <tr>
                     <td  class="style5">

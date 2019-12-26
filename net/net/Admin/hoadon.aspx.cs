@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace net.Admin
 {
-    public partial class WebForm2 : System.Web.UI.Page
+    public partial class hoadon : System.Web.UI.Page
     {
         DataView dvitem;
         ConnectToSql conn = new ConnectToSql();
@@ -26,7 +26,7 @@ namespace net.Admin
         }
         private void BindData()
         {
-            cmd.CommandText = "select * from hoadon";
+            cmd.CommandText = "SELECT * FROM [order].[Order]";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn.Connection;
             conn.OpenConn();
@@ -40,7 +40,7 @@ namespace net.Admin
         }
         private void BindData(String x)
         {
-            cmd.CommandText = "select * from hoadon where datecre BETWEEN '" + x + " 00:00:00' AND '" + x + " 23:59:59'";
+            cmd.CommandText = "select * from [order].[Order] where orderdate BETWEEN '" + x + " 00:00:00' AND '" + x + " 23:59:59'";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn.Connection;
             conn.OpenConn();
@@ -63,6 +63,22 @@ namespace net.Admin
         protected void btnt_Click(object sender, EventArgs e)
         {
             BindData();
+        }
+
+        protected void grvitem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnchitiet_Click(object sender, EventArgs e)
+        {
+            Session["idorder"] = TextBox1.Text;
+            Response.Redirect("/Admin/chitiet.aspx", true);
+        }
+
+        protected void btnbs_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Admin/bsl.aspx", true);
         }
     }
 }
