@@ -1,0 +1,119 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="admm.Master.cs" Inherits="net.Admin.Site1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="admin.css" rel="stylesheet" type="text/css" />
+
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .style1
+        {
+            width: 100%;
+        }
+        .style2
+        {
+            height: 115px;
+            font-size: 40px;
+            color: #D2CE00;
+            text-align: center;
+            background-image:url(bgcf.jpg);
+        }
+        .style3
+        {
+            height: 115px;
+            width: 204px;
+        }
+        .style4
+        {
+            height: 30px;
+            background: gray;
+            color: Maroon;
+            font-size: medium;
+            text-align: center;
+            border-bottom: solid 1px #009900;
+            background: gray;
+            width: 200px;
+            font-style: italic;
+        }
+        .style5
+        {
+            width: 200px;
+            font-size: x-large;
+        }
+        .style7
+        {
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="header">
+        <table class="style1">
+            <tr>
+                <td class="style3">
+                    <asp:Image ID="Image1" runat="server" Height="113px" 
+                        ImageUrl="Logo.jpg" 
+                        style="margin-top: 0px" Width="236px" />
+                </td>
+                <td class="style2">
+                    <strong class="style1">Coffee Management System(Admin)</strong></td>
+            </tr>
+        </table>
+    </div>
+    <div id="main">
+       
+        <div id="mnu">
+            <table class="main">
+                <tr>
+                    <td bgcolor="#44A210" class="tblhead">
+                        MENU</td>
+                </tr>
+                <tr>
+                    <td   class="style5">
+                        <asp:Button ID="Button1" runat="server"  
+                           Text="Edit menu đồ uống" CssClass="mbtn"
+                            CausesValidation="False" PostBackUrl="~/Admin/editmon.aspx" 
+                            onclick="Button1_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style5">
+                        <asp:Button ID="Button9" runat="server"  
+                           Text="Edit menu đồ uống" CssClass="mbtn"
+                            CausesValidation="False" PostBackUrl="~/Admin/editcustomer.aspx" 
+                            onclick="Button1_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td   class="style5">
+                        <asp:Button ID="Button3" runat="server" CssClass="mbtn"
+                            Text="Báo cáo doanh thu" 
+                            CausesValidation="False" PostBackUrl="~/Admin/hoadon.aspx" OnClick="Button3_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="style5">
+                        <asp:Button ID="Button8" runat="server" CssClass="mbtn"
+                            Text="Log Out"  CausesValidation="False" 
+                            PostBackUrl="~/Admin/logon.aspx" OnClick="Button8_Click" />
+
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    <div id="cnt"   > 
+     <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </div>
+    
+       </form>
+</body>
+</html>

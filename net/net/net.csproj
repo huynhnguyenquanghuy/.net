@@ -96,6 +96,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\admin.css" />
+    <Content Include="Admin\bgcf.jpg" />
+    <Content Include="Admin\editmon.aspx" />
+    <Content Include="Admin\hoadon.aspx" />
+    <Content Include="Admin\Logo.jpg" />
+    <Content Include="Admin\logon.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -115,6 +121,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Admin\admm.Master" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -124,6 +131,35 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\admm.Master.cs">
+      <DependentUpon>admm.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\admm.Master.designer.cs">
+      <DependentUpon>admm.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ConnectToSql.cs" />
+    <Compile Include="Admin\editmon.aspx.cs">
+      <DependentUpon>editmon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\editmon.aspx.designer.cs">
+      <DependentUpon>editmon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\hoadon.aspx.cs">
+      <DependentUpon>hoadon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\hoadon.aspx.designer.cs">
+      <DependentUpon>hoadon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\logon.aspx.cs">
+      <DependentUpon>logon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\logon.aspx.designer.cs">
+      <DependentUpon>logon.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
